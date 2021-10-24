@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   jenkins:
-    image: sinqia-jenkins:ur-1.0.0
+    image: jenkins:ur-1.0.0
     container_name: jenkins
     hostname: jenknis
     build: .
@@ -16,4 +16,4 @@ services:
       - ./jenkins_home/jenkins-jobs:/var/jenkins_home/jenkins-jobs
       - ./jenkins_home/secrets:/var/jenkins_home/secrets
       - ./jenkins_home/work:/var/jenkins_home/work
-  
+    
