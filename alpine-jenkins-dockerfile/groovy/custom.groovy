@@ -30,7 +30,7 @@ jenkinsLocationConfiguration.save()
 
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
 hudsonRealm.createAccount('admin', password)
-hudsonRealm.createAccount('saidsef', password)
+hudsonRealm.createAccount('rosthan', password)
 instance.setSecurityRealm(hudsonRealm)
 instance.setNumExecutors(1)
 // instance.getDescriptor("jenkins.CLI").get().setEnabled(false)
@@ -50,7 +50,7 @@ matrix.add(Item.DISCOVER,'authenticated')
 matrix.add(Item.CANCEL,'authenticated')
 matrix.add(Item.READ,'anonymous')
 // info found from http://javadoc.jenkins-ci.org/hudson/security/class-use/Permission.html#jenkins.slaves
-matrix.add(Jenkins.ADMINISTER, "saidsef")
+matrix.add(Jenkins.ADMINISTER, "rosthan")
 instance.setAuthorizationStrategy(matrix)
 instance.setCrumbIssuer(new DefaultCrumbIssuer(true))
 instance.save()
@@ -66,12 +66,12 @@ try {
   theme.setElements([new org.jenkinsci.plugins.simpletheme.CssUrlThemeElement("https://tobix.github.io/jenkins-neo2-theme/dist/${colour}.css")])
   instance.save()
 
-  println "--> updating jenkins theme to: ${colour}"
+  println "--> Fazendo Update do Tema Para a Cor: ${colour}"
 } catch(Exception e) {
-  println "--> styling failed"
+  println "--> Falha a aplicar o tema"
   println "${e}"
 }
 
 println "#########################################################"
-println "--> created local user 'admin' with password: ${password}"
+println "--> Criado usuário 'admin' Com a Senha: ${password}"
 println "#########################################################"

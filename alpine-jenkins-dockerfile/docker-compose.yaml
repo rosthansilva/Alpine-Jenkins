@@ -16,14 +16,4 @@ services:
       - ./jenkins_home/jenkins-jobs:/var/jenkins_home/jenkins-jobs
       - ./jenkins_home/secrets:/var/jenkins_home/secrets
       - ./jenkins_home/work:/var/jenkins_home/work
-  nginx:
-    image: nginx:1.17-alpine
-    container_name: jenkins-proxy
-    depends_on: 
-      - jenkins
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./data/nginx:/etc/nginx/conf.d
-      - ./data/html:/etc/nginx/html
+  
