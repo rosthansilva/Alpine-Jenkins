@@ -1,0 +1,102 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jenkins-main
+  labels:
+    name: jenkins-main
+    app: jenkins-main
+spec:
+  revisionHistoryLimit: 1
+  serviceName: jenkins-main
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-main
+  template:
+    metadata:
+      labels:
+        app: jenkins-main
+    spec:
+      shareProcessNamespace: true
+      initContainers:
+        - name: jenkins-init
+          image: busybox:latest
+          command: ["sh", "-c", "chmod -R 777 /var/jenkins_home"]
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: storage
+              mountPath: /var/jenkins_home
+      containers:
+        - name: jenkins-main
+          image: docker.io/saidsef/alpine-jenkins-dockerfile:latest
+          imagePullPolicy: Always
+          ports:
+            - protocol: TCP
+              containerPort: 8080
+              name: tcp-jenkins
+            - protocol: TCP
+              containerPort: 8081
+              name: tcp-prometheus
+          volumeMounts:
+            - name: storage
+              mountPath: /var/jenkins_home/logs
+              subPath: logs
+            - name: storage
+              mountPath: /var/jenkins_home/jobs
+              subPath: jobs
+            - name: storage
+              mountPath: /var/jenkins_home/cache
+              subPath: cache
+            - name: storage
+              mountPath: /var/jenkins_home/jenkins-jobs
+              subPath: jenkins-jobs
+            - name: storage
+              mountPath: /var/jenkins_home/builds
+              subPath: builds
+            - name: storage
+              mountPath: /var/jenkins_home/secrets
+              subPath: secrets
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - java
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 3
+          readinessProbe:
+            tcpSocket:
+                port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 3
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "3Gi"
+              ephemeral-storage: "4Gi"
+            limits:
+              cpu: "900m"
+              memory: "3Gi"
+              ephemeral-storage: "8Gi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsGroup: 1000
+            runAsUser: 1000
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
+                - NET_RAW
+                - SYS_TIME
+      volumes:
+        - name: storage
+          hostPath:
+            path: /mnt/jenkins
+            type: DirectoryOrCreate

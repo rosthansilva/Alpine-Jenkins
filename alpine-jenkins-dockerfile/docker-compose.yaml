@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  jenkins:
+    image: sinqia-jenkins:ur-1.0.0
+    container_name: jenkins
+    hostname: jenknis
+    build: .
+    ports:
+      - 8080:8080
+      - 50000:50000
+      - 8081:8081
+    volumes:
+      - ./jenkins_home/logs:/var/jenkins_home/logs
+      - ./jenkins_home/cache:/var/jenkins_home/cache
+      - ./jenkins_home/jobs:/var/jenkins_home/jobs
+      - ./jenkins_home/jenkins-jobs:/var/jenkins_home/jenkins-jobs
+      - ./jenkins_home/secrets:/var/jenkins_home/secrets
+      - ./jenkins_home/work:/var/jenkins_home/work
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: jenkins-proxy
+    depends_on: 
+      - jenkins
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/html:/etc/nginx/html

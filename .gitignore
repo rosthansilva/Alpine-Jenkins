@@ -1,0 +1,8 @@
+# ignore files/folders
+**/.vscode
+*.swp
+alpine-jenkins-dockerfile/build/*
+alpine-jenkins-dockerfile/operator/*
+alpine-jenkins-dockerfile/README.md
+alpine-jenkins-dockerfile/LICENCE.md
+alpine-jenkins-dockerfile/jenkins_home/*
