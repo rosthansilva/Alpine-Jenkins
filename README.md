@@ -5,7 +5,7 @@
 ## Usando  Jenkins-CLI
 
 
-## Sem Autenticar :
+### Sem Autenticar :
 
 ```
 docker run -it --rm \
@@ -26,7 +26,7 @@ Altere `help` com seu comando.
  - Documentação : [Jenkins CLI wiki page](https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+CLI) .
 
 
-## Configuração
+### Configuração
 
 - `JENKINS_URL`: **Obrigatório**
 - `PRIVATE_KEY`: *opcional* (Padrão: `/ssh/id_rsa`)
