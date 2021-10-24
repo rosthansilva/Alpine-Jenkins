@@ -22,7 +22,7 @@ function run {
   -v $BASE/jenkins/cache:/var/jenkins_home/cache \
   -v $BASE/jenkins/logs:/var/jenkins_home/jenkins-jobs \
   -v $BASE/jenkins/secrets:/var/jenkins_home/secrets \
-  docker.io/saidsef/${PWD##*/}:${TAG}
+  docker.io/rosthansilva/${PWD##*/}:${TAG}
 }
 
 function main {
