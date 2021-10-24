@@ -11,13 +11,13 @@ function usage {
 }
 
 function build {
-  echo "Build container"
-  docker build --build-arg "BUILD_ID=${TAG}" -t docker.io/saidsef/${PWD##*/}:${TAG} .
+  echo "Builda Container"
+  docker build --build-arg "BUILD_ID=${TAG}" -t docker.io/rosthansilva/${PWD##*/}:${TAG} .
 }
 
 function push {
   echo "Pushing image to docker hub"
-  docker push docker.io/saidsef/${PWD##*/}:${TAG}
+  docker push docker.io/rosthansilva/${PWD##*/}:${TAG}
   echo $?
 }
 
